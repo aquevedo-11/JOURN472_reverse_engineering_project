@@ -1,7 +1,7 @@
 ---
-title: "Reverse Engineering Project"
-author: "Student names here"
-date: "Date here"
+title: "Reverse Engineering Project Missing Kids"
+author: "Cait Kelley, April Quevedo, Mekhi Abbott, Iliana Williams"
+date: "10/5/2023"
 output:
   html_document:
     theme: cerulean
@@ -25,7 +25,10 @@ In this notebook, we are reverse engineering the story, [Thousands of kids are m
 Loading required libraries for this analysis.
 
 ```{r echo=FALSE, message=FALSE}
-
+options(scipen=999)
+library(tidyverse)
+library(lubridate)
+library(refinr)
 ```
 
 ## Load and Cleaning Data
