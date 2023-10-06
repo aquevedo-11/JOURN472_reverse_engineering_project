@@ -25,10 +25,7 @@ In this notebook, we are reverse engineering the story, [Thousands of kids are m
 Loading required libraries for this analysis.
 
 ```{r echo=FALSE, message=FALSE}
-options(scipen=999)
-library(tidyverse)
-library(lubridate)
-library(refinr)
+
 ```
 
 ## Load and Cleaning Data
@@ -37,6 +34,10 @@ In this section, describe the source of the data, write a basic data dictionary 
 
 ```{r}
 # Load required data
+
+private_enrollment_by_grade.csv <- read_csv("data/private_enrollment_by_grade.csv")
+population_by_age.csv <- read_csv("data/population_by_age.csv")
+public_enrollment_by_grade.csv <- read_csv("data/public_enrollment_by_grade.csv")
 
 # Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
 
@@ -56,7 +57,8 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: “In the 21 states where data was available, enrollment fell by about 700,000 students between the 2019-2020 and 2021-2022 school years.”
+* **Sentence text**: “In the 21 states where data was available, [public school] enrollment fell by about 700,000 students between the 2019-2020 and 2021-2022 school years.”
+
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
