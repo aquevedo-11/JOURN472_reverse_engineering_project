@@ -125,16 +125,16 @@ filter(
 )|>
 group_by(state, enrollment)
 
-colnames(public_2020_2021)[colnames(public_2020_2021) == "enrollment"] <- "enrollment_2021_2022"
+colnames(public_2021_2022)[colnames(public_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
 
 colnames(public_2019_2020)[colnames(public_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
 
-public_2019_2020$enrollment_2021_2022 <- public_2020_2021$enrollment_2020_2021
+public_2019_2020$enrollment_2021_2022 <- public_2021_2022$enrollment_2021_2022
 
 public_2019_2020 <- public_2019_2020 %>%
-  select(state, grade, enrollment_2019_2020, enrollment_2020_2021)
+  select(state, grade, enrollment_2019_2020, enrollment_2021_2022)
 
-public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_2019_2020$enrollment_2020_2021
+public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_2019_2020$enrollment_2021_2022
 
 total_sum <- sum(public_2019_2020$Difference)
 
