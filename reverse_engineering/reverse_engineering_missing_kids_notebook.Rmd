@@ -62,10 +62,70 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 ```{r}
 # Put code to reverse engineer sentence here
+public_enrollment_by_grade.csv <- read_csv("data/public_enrollment_by_grade.csv")|>
+filter(
+   str_detect(grade,"k_12_total")
+  )
+public_2019_2020 <- public_enrollment_by_grade.csv |>
+  filter(
+    sch_year=="2019-2020"
+  )|>
+filter(
+   state=="CALIFORNIA"|
+    state=="NEW YORK"|
+    state=="LOUISIANA"|
+    state=="NORTH CAROLINA"|
+    state=="WASHINGTON"|
+    state=="COLORADO"|
+    state=="GEORGIA"|
+    state=="MINNESOTA"|
+    state=="WISCONSIN"|
+    state=="NEW HAMPSHIRE"|
+    state=="MASSACHUSETTS"|
+    state=="MONTANA"|
+    state=="DELAWARE"|
+    state=="NORTH DAKOTA"|
+    state=="SOUTH DAKOTA"|
+    state=="SOUTH CAROLINA"|
+    state=="NEBRASKA"|
+    state=="RHODE ISLAND"|
+    state=="TENNESSEE"|
+    state=="PENNSYLVANIA"|
+    state=="FLORIDA"
+)|>
+group_by(state, enrollment)|>
+  summarise(total_enrollment=sum(enrollment))
+
+public_2020_2021 <- public_enrollment_by_grade.csv |>
+  filter(sch_year=="2020-2021")|>
+filter(
+   state=="CALIFORNIA"|
+    state=="NEW YORK"|
+    state=="LOUISIANA"|
+    state=="NORTH CAROLINA"|
+    state=="WASHINGTON"|
+    state=="COLORADO"|
+    state=="GEORGIA"|
+    state=="MINNESOTA"|
+    state=="WISCONSIN"|
+    state=="NEW HAMPSHIRE"|
+    state=="MASSACHUSETTS"|
+    state=="MONTANA"|
+    state=="DELAWARE"|
+    state=="NORTH DAKOTA"|
+    state=="SOUTH DAKOTA"|
+    state=="SOUTH CAROLINA"|
+    state=="NEBRASKA"|
+    state=="RHODE ISLAND"|
+    state=="TENNESSEE"|
+    state=="PENNSYLVANIA"|
+    state=="FLORIDA"
+)
 
 # Display results of code below this codeblock
 
 ```
+
 
 ### Sentence 2
 
