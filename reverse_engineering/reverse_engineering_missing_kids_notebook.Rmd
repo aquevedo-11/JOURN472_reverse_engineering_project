@@ -66,10 +66,12 @@ public_enrollment_by_grade.csv <- read_csv("data/public_enrollment_by_grade.csv"
 filter(
    str_detect(grade,"k_12_total")
   )
-public_2019_2020 <- public_enrollment_by_grade.csv |>
-  filter(
-    sch_year=="2019-2020"
-  )|>
+#public_2019_2020 <- public_enrollment_by_grade.csv |>
+  #filter(
+    #sch_year=="2019-2020"
+  #)|>  
+
+#I took out 2019-2020 and 2020-2021 to keep the dates in the same dataframe. I was thinking about keeping the state filters but when I ran it I got an error that said state is not found??
 filter(
    state=="CALIFORNIA"|
     state=="NEW YORK"|
@@ -95,6 +97,7 @@ filter(
 )|>
 group_by(state, enrollment)|>
   summarise(total_enrollment=sum(enrollment))
+
 
 public_2020_2021 <- public_enrollment_by_grade.csv |>
   filter(sch_year=="2020-2021")|>
@@ -123,6 +126,38 @@ filter(
 )|>
 group_by(state, enrollment)|>
   summarise(total_enrollment=sum(enrollment))
+
+#mutate(
+    #enrollment_2019 = something here + something here + something here etc.
+    #enrollment_2019 = something here??
+ # ) mutate creates a new column (look through pre lab 2, task 10 for more explanation). Create another column for 2020-2021
+#also for mutate, if we are just looking at enrollment for 21 states, do we list out each of the enrollments (for instance enrollment_2019 = 16000 + 16000 + 27000...)?
+
+#public_2020_2021 <- public_enrollment_by_grade.csv |>
+  #filter(sch_year=="2020-2021")|>
+#filter(
+   #state=="CALIFORNIA"|
+    #state=="NEW YORK"|
+    #state=="LOUISIANA"|
+    #state=="NORTH CAROLINA"|
+    #state=="WASHINGTON"|
+    #state=="COLORADO"|
+    #state=="GEORGIA"|
+    #state=="MINNESOTA"|
+    #state=="WISCONSIN"|
+    #state=="NEW HAMPSHIRE"|
+    #state=="MASSACHUSETTS"|
+    #state=="MONTANA"|
+    #state=="DELAWARE"|
+    #state=="NORTH DAKOTA"|
+    #state=="SOUTH DAKOTA"|
+    #state=="SOUTH CAROLINA"|
+    #state=="NEBRASKA"|
+    #state=="RHODE ISLAND"|
+    #state=="TENNESSEE"|
+    #state=="PENNSYLVANIA"|
+    #state=="FLORIDA"
+#)
 
 # Display results of code below this codeblock
 
