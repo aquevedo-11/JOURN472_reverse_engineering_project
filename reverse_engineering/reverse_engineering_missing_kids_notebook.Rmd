@@ -26,6 +26,14 @@ Loading required libraries for this analysis.
 
 ```{r echo=FALSE, message=FALSE}
 
+# Clean required data and prepare for analysis if needed. 
+library(tidyverse)
+
+# Load janitor
+library(janitor)
+
+#load lubridate
+library(lubridate)
 ```
 
 ## Load and Cleaning Data
@@ -40,15 +48,6 @@ population_by_age.csv <- read_csv("data/population_by_age.csv")
 public_enrollment_by_grade.csv <- read_csv("data/public_enrollment_by_grade.csv")
 
 # Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
-
-# Clean required data and prepare for analysis if needed. 
-library(tidyverse)
-
-# Load janitor
-library(janitor)
-
-#load lubridate
-library(lubridate)
 
 ```
 
