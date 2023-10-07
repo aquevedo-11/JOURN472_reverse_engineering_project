@@ -1,6 +1,6 @@
 ---
 title: "Reverse Engineering Project Missing Kids"
-author: "Cait Kelley, April Quevedo, Mekhi Abbott, Iliana Williams"
+author: "Cait Kelley, April Quevedo, Mekhi Abbott, Ilana Williams"
 date: "10/5/2023"
 output:
   html_document:
