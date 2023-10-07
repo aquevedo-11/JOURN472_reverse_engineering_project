@@ -69,35 +69,9 @@ filter(
 public_2019_2020 <- public_enrollment_by_grade.csv |>
   filter(
     sch_year=="2019-2020"
-  )|>
-filter(
-   state=="CALIFORNIA"|
-    state=="NEW YORK"|
-    state=="LOUISIANA"|
-    state=="NORTH CAROLINA"|
-    state=="WASHINGTON"|
-    state=="COLORADO"|
-    state=="GEORGIA"|
-    state=="MINNESOTA"|
-    state=="WISCONSIN"|
-    state=="NEW HAMPSHIRE"|
-    state=="MASSACHUSETTS"|
-    state=="MONTANA"|
-    state=="DELAWARE"|
-    state=="NORTH DAKOTA"|
-    state=="SOUTH DAKOTA"|
-    state=="SOUTH CAROLINA"|
-    state=="NEBRASKA"|
-    state=="RHODE ISLAND"|
-    state=="TENNESSEE"|
-    state=="PENNSYLVANIA"|
-    state=="FLORIDA"
-)|>
-group_by(state, enrollment)|>
-  summarise(total_enrollment=sum(enrollment))
+  )|>  
 
-public_2020_2021 <- public_enrollment_by_grade.csv |>
-  filter(sch_year=="2020-2021")|>
+
 filter(
    state=="CALIFORNIA"|
     state=="NEW YORK"|
@@ -121,8 +95,58 @@ filter(
     state=="PENNSYLVANIA"|
     state=="FLORIDA"
 )|>
-group_by(state, enrollment)|>
-  summarise(total_enrollment=sum(enrollment))
+group_by(state, enrollment)
+
+
+public_2021_2022 <- public_enrollment_by_grade.csv |>
+  filter(sch_year=="2021-2022")|>
+filter(
+   state=="CALIFORNIA"|
+    state=="NEW YORK"|
+    state=="LOUISIANA"|
+    state=="NORTH CAROLINA"|
+    state=="WASHINGTON"|
+    state=="COLORADO"|
+    state=="GEORGIA"|
+    state=="MINNESOTA"|
+    state=="WISCONSIN"|
+    state=="NEW HAMPSHIRE"|
+    state=="MASSACHUSETTS"|
+    state=="MONTANA"|
+    state=="DELAWARE"|
+    state=="NORTH DAKOTA"|
+    state=="SOUTH DAKOTA"|
+    state=="SOUTH CAROLINA"|
+    state=="NEBRASKA"|
+    state=="RHODE ISLAND"|
+    state=="TENNESSEE"|
+    state=="PENNSYLVANIA"|
+    state=="FLORIDA"
+)|>
+group_by(state, enrollment)
+
+colnames(public_2020_2021)[colnames(public_2020_2021) == "enrollment"] <- "enrollment_2021_2022"
+
+colnames(public_2019_2020)[colnames(public_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
+
+public_2019_2020$enrollment_2021_2022 <- public_2020_2021$enrollment_2020_2021
+
+public_2019_2020 <- public_2019_2020 %>%
+  select(state, grade, enrollment_2019_2020, enrollment_2020_2021)
+
+public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_2019_2020$enrollment_2020_2021
+
+total_sum <- sum(public_2019_2020$Difference)
+
+#Everything we asked ChatGPT:
+
+# 1: Explain in the most simple way how to insert a column into a r studio dataset from another column. Give an example and show the datasets from your example.
+
+# 2: Explain in a simple way how to rename a column in a dataset in r studio
+
+# 3: How do you find the difference between two columns in r
+
+# 4: How to hide columns in a dataset in r studio
 
 # Display results of code below this codeblock
 
