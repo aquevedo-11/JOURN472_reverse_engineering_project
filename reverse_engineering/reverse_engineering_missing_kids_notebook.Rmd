@@ -137,6 +137,7 @@ public_2019_2020 <- public_2019_2020 %>%
 public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_2019_2020$enrollment_2021_2022
 
 total_sum <- sum(public_2019_2020$Difference)
+print(total_sum)
 
 #Everything we asked ChatGPT:
 
