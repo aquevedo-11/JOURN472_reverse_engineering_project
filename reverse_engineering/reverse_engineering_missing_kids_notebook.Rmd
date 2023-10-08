@@ -58,7 +58,9 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 * **Sentence text**: “In the 21 states where data was available, [public school] enrollment fell by about 700,000 students between the 2019-2020 and 2021-2022 school years.”
 
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Analysis summary**:
+
+Based on the k-12 enrollment totals reported in the 21 states with available data, we were able to confirm enrollment fell by 704593 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -87,6 +89,7 @@ filter(
     state=="MONTANA"|
     state=="DELAWARE"|
     state=="NORTH DAKOTA"|
+    state=="DISTRICT OF COLUMBIA"|
     state=="SOUTH DAKOTA"|
     state=="SOUTH CAROLINA"|
     state=="NEBRASKA"|
@@ -94,8 +97,7 @@ filter(
     state=="TENNESSEE"|
     state=="PENNSYLVANIA"|
     state=="FLORIDA"
-)|>
-group_by(state, enrollment)
+)
 
 
 public_2021_2022 <- public_enrollment_by_grade.csv |>
@@ -115,6 +117,7 @@ filter(
     state=="MONTANA"|
     state=="DELAWARE"|
     state=="NORTH DAKOTA"|
+    state=="DISTRICT OF COLUMBIA"|
     state=="SOUTH DAKOTA"|
     state=="SOUTH CAROLINA"|
     state=="NEBRASKA"|
@@ -122,8 +125,7 @@ filter(
     state=="TENNESSEE"|
     state=="PENNSYLVANIA"|
     state=="FLORIDA"
-)|>
-group_by(state, enrollment)
+)
 
 colnames(public_2021_2022)[colnames(public_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
 
