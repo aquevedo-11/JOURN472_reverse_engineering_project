@@ -72,30 +72,9 @@ public_2019_2020 <- public_enrollment_k12 |>
     sch_year=="2019-2020"
   )|>  
 
-filter(
-   state=="CALIFORNIA"|
-    state=="NEW YORK"|
-    state=="LOUISIANA"|
-    state=="NORTH CAROLINA"|
-    state=="WASHINGTON"|
-    state=="COLORADO"|
-    state=="GEORGIA"|
-    state=="MINNESOTA"|
-    state=="WISCONSIN"|
-    state=="NEW HAMPSHIRE"|
-    state=="MASSACHUSETTS"|
-    state=="MONTANA"|
-    state=="DELAWARE"|
-    state=="NORTH DAKOTA"|
-    state=="DISTRICT OF COLUMBIA"|
-    state=="SOUTH DAKOTA"|
-    state=="SOUTH CAROLINA"|
-    state=="NEBRASKA"|
-    state=="RHODE ISLAND"|
-    state=="TENNESSEE"|
-    state=="PENNSYLVANIA"|
-    state=="FLORIDA"
-)
+states = c("CALIFORNIA","NEW YORK","LOUISIANA","NORTH CAROLINA","WASHINGTON","COLORADO","GEORGIA","MINNESOTA","WISCONSIN","NEW HAMPSHIRE","MASSACHUSETTS","MONTANA","DELAWARE","NORTH DAKOTA","DISTRICT OF COLUMBIA","SOUTH DAKOTA","SOUTH CAROLINA","NEBRASKA","RHODE ISLAND","TENNESSEE","PENNSYLVANIA","FLORIDA") 
+  
+filter(state %in% states)
 
 public_2021_2022 <- public_enrollment_k12 |>
   filter(sch_year=="2021-2022")|>
