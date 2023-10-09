@@ -43,9 +43,9 @@ In this section, describe the source of the data, write a basic data dictionary 
 ```{r}
 # Load required data
 
-private_enrollment_by_grade.csv <- read_csv("data/private_enrollment_by_grade.csv")
-population_by_age.csv <- read_csv("data/population_by_age.csv")
-public_enrollment_by_grade.csv <- read_csv("data/public_enrollment_by_grade.csv")
+private_enrollment_by_grade <- read_csv("data/private_enrollment_by_grade.csv")
+population_by_age <- read_csv("data/population_by_age.csv")
+public_enrollment_by_grade <- read_csv("data/public_enrollment_by_grade.csv")
 
 # Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
 
@@ -64,11 +64,10 @@ Based on the k-12 enrollment totals reported in the 21 states with available dat
 
 ```{r}
 # Put code to reverse engineer sentence here
-public_enrollment_by_grade <- read_csv("data/public_enrollment_by_grade.csv")|>
-filter(
-   str_detect(grade,"k_12_total")
-  )
-public_2019_2020 <- public_enrollment_by_grade.csv |>
+public_enrollment_k12 <- public_enrollment_by_grade |>
+filter(grade =="k_12_total") 
+
+public_2019_2020 <- public_enrollment_k12 |>
   filter(
     sch_year=="2019-2020"
   )|>  
@@ -98,7 +97,7 @@ filter(
     state=="FLORIDA"
 )
 
-public_2021_2022 <- public_enrollment_by_grade.csv |>
+public_2021_2022 <- public_enrollment_k12 |>
   filter(sch_year=="2021-2022")|>
 filter(
    state=="CALIFORNIA"|
