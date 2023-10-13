@@ -70,20 +70,14 @@ public_enrollment_k12 <- public_enrollment_by_grade |>
 filter(grade =="k_12_total")|>
   filter(state %in% states)
 
-
-
 public_2019_2020 <- public_enrollment_k12 |>
   filter(
     sch_year=="2019-2020"
   )  
 
- 
-
 public_2021_2022 <- public_enrollment_k12 |>
   filter(sch_year=="2021-2022")
   
-
-
 colnames(public_2021_2022)[colnames(public_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
 
 colnames(public_2019_2020)[colnames(public_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
@@ -97,8 +91,6 @@ public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_20
 
 public_enrollment_loss <- sum(public_2019_2020$Difference)
 print(total_sum)
-
-
 
 #Everything we asked ChatGPT:
 
@@ -142,10 +134,31 @@ print(total_sum)
 ### Sentence 4
 
 * **Sentence text**: “The population of school-age kids in the states we studied fell by about 183,000, according to census estimates.”
+
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
+
+states = c("CALIFORNIA","NEW YORK","LOUISIANA","NORTH CAROLINA","WASHINGTON","COLORADO","GEORGIA","MINNESOTA","WISCONSIN","NEW HAMPSHIRE","MASSACHUSETTS","MONTANA","DELAWARE","NORTH DAKOTA","DISTRICT OF COLUMBIA","SOUTH DAKOTA","SOUTH CAROLINA","NEBRASKA","RHODE ISLAND","TENNESSEE","PENNSYLVANIA","FLORIDA") 
+
+#column names and new data frames are already made so I took them out
+#need to make a new dataframe for the 2020 dates?
+
+date_2020_population_by_age <- population_by_age |>
+  filter(
+    est_date=="2020-04-01"
+  )  
+
+date_2021_population_by_age <- population_by_age|>
+  filter(
+    est_date=="2021-07-01"
+  )
+
+date_2020_population_by_age$Difference <- date_2020_population_by_age$population - date_2020_population_by_age$age
+
+population_by_ageloss <- sum(date_2020_population_by_age$Difference)
+print(total_sum) #total_sum not found??
 
 # Display results of code below this codeblock
 
