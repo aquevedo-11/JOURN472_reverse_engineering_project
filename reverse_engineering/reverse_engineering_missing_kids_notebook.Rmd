@@ -110,7 +110,7 @@ print(total_sum)
 ### Sentence 2
 
 * **Sentence text**: “Across the states in the analysis, private-school enrollment grew by about 103,000 students.”
-* **Analysis summary**: [Based on the k-12 enrollment totals reported in the 21 states with available data (plus the District of Columbia), we were able to confirm enrollment in private schools rose by 102,847 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
+* **Analysis summary**: Based on the k-12 enrollment totals reported in the 21 states (plus the District of Columbia) with available data, we were able to confirm enrollment in private schools rose by 102,847 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
 
 ```{r}
 # Put code to reverse engineer sentence here
