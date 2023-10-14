@@ -110,12 +110,37 @@ print(total_sum)
 ### Sentence 2
 
 * **Sentence text**: “Across the states in the analysis, private-school enrollment grew by about 103,000 students.”
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Analysis summary**: [Based on the k-12 enrollment totals reported in the 21 states with available data (plus the District of Columbia), we were able to confirm enrollment in private schools rose by 102,847 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
 
 ```{r}
 # Put code to reverse engineer sentence here
+states = c("CA","NY","LA","NC","WA","CO","GA","MN","WI","NH","MA","MT","DE","ND","DC","SD","SC","NE","RI","TN","PA","FL") 
 
-# Display results of code below this codeblock
+private_enrollment_k12 <- private_enrollment_by_grade |>
+filter(grade =="k_12_total")|>
+  filter(state %in% states)
+
+private_2019_2020 <- private_enrollment_k12 |>
+  filter(
+    sch_year=="2019-2020"
+  )  
+
+private_2021_2022 <- private_enrollment_k12 |>
+  filter(sch_year=="2021-2022")
+  
+colnames(private_2021_2022)[colnames(private_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
+
+colnames(private_2019_2020)[colnames(private_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
+
+private_2019_2020$enrollment_2021_2022 <- private_2021_2022$enrollment_2021_2022
+
+private_2019_2020 <- private_2019_2020 %>%
+  select(state, grade, enrollment_2019_2020, enrollment_2021_2022)
+
+private_2019_2020$Difference <- private_2019_2020$enrollment_2019_2020 - private_2019_2020$enrollment_2021_2022
+
+private_enrollment_loss <- sum(private_2019_2020$Difference)
+print(total_sum)
 
 ```
 
