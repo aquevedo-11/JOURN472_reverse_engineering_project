@@ -87,10 +87,10 @@ public_2019_2020$enrollment_2021_2022 <- public_2021_2022$enrollment_2021_2022
 public_2019_2020 <- public_2019_2020 %>%
   select(state, grade, enrollment_2019_2020, enrollment_2021_2022)
 
-public_2019_2020$Difference <- public_2019_2020$enrollment_2019_2020 - public_2019_2020$enrollment_2021_2022
+public_2019_2020$Difference <- public_2019_2020$enrollment_2021_2022 - public_2019_2020$enrollment_2019_2020
 
 public_enrollment_loss <- sum(public_2019_2020$Difference)
-print(total_sum)
+print(public_enrollment_loss)
 
 #Everything we asked ChatGPT:
 
@@ -137,10 +137,10 @@ private_2019_2020$enrollment_2021_2022 <- private_2021_2022$enrollment_2021_2022
 private_2019_2020 <- private_2019_2020 %>%
   select(state, grade, enrollment_2019_2020, enrollment_2021_2022)
 
-private_2019_2020$Difference <- private_2019_2020$enrollment_2019_2020 - private_2019_2020$enrollment_2021_2022
+private_2019_2020$Difference <- private_2019_2020$enrollment_2021_2022 - private_2019_2020$enrollment_2019_2020
 
-private_enrollment_loss <- sum(private_2019_2020$Difference)
-print(total_sum)
+private_enrollment_gain <- sum(private_2019_2020$Difference)
+print(private_enrollment_gain)
 
 ```
 
@@ -160,30 +160,44 @@ print(total_sum)
 
 * **Sentence text**: “The population of school-age kids in the states we studied fell by about 183,000, according to census estimates.”
 
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Analysis summary**: We were able to confirm the findings. We found the school-age population fell by 183,486 students in the 21 states + DC which matched the summary file. We followed steps from sentences 1 and 2. We used population data from April 1, 2020 and July 1, 2021. We used the April 1 data because that was prepandemic and excluded data from July 1, 2020.
 
 ```{r}
 # Put code to reverse engineer sentence here
 
+
 states = c("CALIFORNIA","NEW YORK","LOUISIANA","NORTH CAROLINA","WASHINGTON","COLORADO","GEORGIA","MINNESOTA","WISCONSIN","NEW HAMPSHIRE","MASSACHUSETTS","MONTANA","DELAWARE","NORTH DAKOTA","DISTRICT OF COLUMBIA","SOUTH DAKOTA","SOUTH CAROLINA","NEBRASKA","RHODE ISLAND","TENNESSEE","PENNSYLVANIA","FLORIDA") 
 
-#column names and new data frames are already made so I took them out
-#need to make a new dataframe for the 2020 dates?
 
 date_2020_population_by_age <- population_by_age |>
   filter(
-    est_date=="2020-04-01"
-  )  
+    est_date=="2020-04-01")|>
+  filter(state %in% states)
+    
+  
 
 date_2021_population_by_age <- population_by_age|>
   filter(
-    est_date=="2021-07-01"
-  )
+    est_date=="2021-07-01")|>
+  filter(state %in% states)
+  
 
-date_2020_population_by_age$Difference <- date_2020_population_by_age$population - date_2020_population_by_age$age
+colnames(date_2020_population_by_age)[colnames(date_2020_population_by_age) == "population"] <- "population_2020"
 
-population_by_ageloss <- sum(date_2020_population_by_age$Difference)
-print(total_sum) #total_sum not found??
+colnames(date_2021_population_by_age)[colnames(date_2021_population_by_age) == "population"] <- "population_2021"
+
+date_2020_population_by_age$population_2021 <- date_2021_population_by_age$population_2021
+
+
+date_2020_population_by_age$Difference <- date_2020_population_by_age$population_2021 - date_2020_population_by_age$population_2020
+
+date_2020_population_by_age|>
+  group_by(state)|>
+  summarise(sum=sum(Difference))
+
+
+population_loss <- sum(date_2020_population_by_age$Difference)
+print(population_loss)
 
 # Display results of code below this codeblock
 
