@@ -149,11 +149,17 @@ print(private_enrollment_gain)
 * **Sentence text**: “The number of children registered for home-schooling surged by around 184,000.”
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
+Based on the k-12 enrollment totals reported in the 21 states (including DC) with available data, we were able to confirm homeschool enrollment increased by 184,047 between the 2019-20 school year and the 2021-22 school year. Because the Nebraska data was not available to us, we can assume that homeschool enrollment in NE increased by 5,486. 184,047 + 5,486 = 184,047, matching the number listed in the summary file. 
+
 ```{r}
 # Put code to reverse engineer sentence here
-
+homeschool_enrollment <- read_csv("data/homeschool_enrollment - Sheet4.csv")
 # Display results of code below this codeblock
 
+homeschool_enrollment$Difference <- homeschool_enrollment$enrollment_2021_22 - homeschool_enrollment$enrollment_2019_20
+
+homeschool_enrollment_gain <- sum(homeschool_enrollment$Difference)
+print(homeschool_enrollment_gain)
 ```
 
 ### Sentence 4
