@@ -16,7 +16,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction 
+## Introduction
 
 In this notebook, we are reverse engineering the story, [Thousands of kids are missing from school. Where did they go?](https://projects.apnews.com/features/2023/missing-children/index.html)
 
@@ -38,7 +38,7 @@ library(lubridate)
 
 ## Load and Cleaning Data
 
-In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
+In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data.
 
 ```{r}
 # Load required data
@@ -52,13 +52,14 @@ public_enrollment_by_grade <- read_csv("data/public_enrollment_by_grade.csv")
 ```
 
 ## Sentences to Engineer
+
 In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: “In the 21 states where data was available, [public school] enrollment fell by about 700,000 students between the 2019-2020 and 2021-2022 school years.”
+-   **Sentence text**: "In the 21 states where data was available, [public school] enrollment fell by about 700,000 students between the 2019-2020 and 2021-2022 school years."
 
-* **Analysis summary**:
+-   **Analysis summary**:
 
 Based on the k-12 enrollment totals reported in the 21 states with available data, we were able to confirm enrollment fell by 704593 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
 
@@ -111,11 +112,10 @@ print(public_enrollment_loss)
 
 ```
 
-
 ### Sentence 2
 
-* **Sentence text**: “Across the states in the analysis, private-school enrollment grew by about 103,000 students.”
-* **Analysis summary**: Based on the k-12 enrollment totals reported in the 21 states (plus the District of Columbia) with available data, we were able to confirm enrollment in private schools rose by 102,847 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
+-   **Sentence text**: "Across the states in the analysis, private-school enrollment grew by about 103,000 students."
+-   **Analysis summary**: Based on the k-12 enrollment totals reported in the 21 states (plus the District of Columbia) with available data, we were able to confirm enrollment in private schools rose by 102,847 students between the 2019-2020 school year and the 2021-2022 school year. This matches the exact number listed in the summary file.
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -128,14 +128,14 @@ filter(grade =="k_12_total")|>
 private_2019_2020 <- private_enrollment_k12 |>
   filter(
     sch_year=="2019-2020"
-  )  
+  )  |>
+  clean_names() |> 
+  rename(enrollment_2019_2020=enrollment) 
 
 private_2021_2022 <- private_enrollment_k12 |>
-  filter(sch_year=="2021-2022")
-  
-colnames(private_2021_2022)[colnames(private_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
-
-colnames(private_2019_2020)[colnames(private_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
+  filter(sch_year=="2021-2022") |>
+  clean_names() |> 
+  rename(enrollment_2021_2022=enrollment) 
 
 private_2019_2020$enrollment_2021_2022 <- private_2021_2022$enrollment_2021_2022
 
@@ -151,10 +151,8 @@ print(private_enrollment_gain)
 
 ### Sentence 3
 
-* **Sentence text**: “The number of children registered for home-schooling surged by around 184,000.”
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
-Based on the k-12 enrollment totals reported in the 21 states (including DC) with available data, we were able to confirm homeschool enrollment increased by 184,047 between the 2019-20 school year and the 2021-22 school year. Because the Nebraska data was not available to us, we can assume that homeschool enrollment in NE increased by 5,486. 184,047 + 5,486 = 184,047, matching the number listed in the summary file. 
+-   **Sentence text**: "The number of children registered for home-schooling surged by around 184,000."
+-   **Analysis summary**: Based on the k-12 enrollment totals reported in the 21 states (including DC) with available data, we were able to confirm homeschool enrollment increased by 184,047 between the 2019-20 school year and the 2021-22 school year. Because the Nebraska data was not available to us, we can assume that homeschool enrollment in NE increased by 5,486. 184,047 + 5,486 = 184,047, matching the number listed in the summary file.
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -165,13 +163,15 @@ homeschool_enrollment$Difference <- homeschool_enrollment$enrollment_2021_22 - h
 
 homeschool_enrollment_gain <- sum(homeschool_enrollment$Difference)
 print(homeschool_enrollment_gain)
+
+homeschool_enrollment_gain_ne <- 5486
 ```
 
 ### Sentence 4
 
-* **Sentence text**: “The population of school-age kids in the states we studied fell by about 183,000, according to census estimates.”
+-   **Sentence text**: "The population of school-age kids in the states we studied fell by about 183,000, according to census estimates."
 
-* **Analysis summary**: We were able to confirm the findings. We found the school-age population fell by 183,486 students in the 21 states + DC which matched the summary file. We followed steps from sentences 1 and 2. We used population data from April 1, 2020 and July 1, 2021. We used the April 1 data because that was prepandemic and excluded data from July 1, 2020.
+-   **Analysis summary**: We were able to confirm the findings. We found the school-age population fell by 183,486 students in the 21 states + DC which matched the summary file. We followed steps from sentences 1 and 2. We used population data from April 1, 2020 and July 1, 2021. We used the April 1 data because that was prepandemic and excluded data from July 1, 2020.
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -183,32 +183,29 @@ states = c("CALIFORNIA","NEW YORK","LOUISIANA","NORTH CAROLINA","WASHINGTON","CO
 date_2020_population_by_age <- population_by_age |>
   filter(
     est_date=="2020-04-01")|>
-  filter(state %in% states)
-    
-  
+  filter(state %in% states) |>
+  clean_names() |> 
+  rename(population_2020=population)   
 
 date_2021_population_by_age <- population_by_age|>
   filter(
     est_date=="2021-07-01")|>
-  filter(state %in% states)
-  
-
-colnames(date_2020_population_by_age)[colnames(date_2020_population_by_age) == "population"] <- "population_2020"
-
-colnames(date_2021_population_by_age)[colnames(date_2021_population_by_age) == "population"] <- "population_2021"
+  filter(state %in% states) |>
+  clean_names() |> 
+  rename(population_2021=population) 
 
 date_2020_population_by_age$population_2021 <- date_2021_population_by_age$population_2021
 
 
-date_2020_population_by_age$Difference <- date_2020_population_by_age$population_2021 - date_2020_population_by_age$population_2020
+date_2020_population_by_age$Difference <- date_2020_population_by_age$population_2020 - date_2020_population_by_age$population_2021
 
 date_2020_population_by_age|>
   group_by(state)|>
   summarise(sum=sum(Difference))
 
 
-population_loss <- sum(date_2020_population_by_age$Difference)
-print(population_loss)
+population_change <- sum(date_2020_population_by_age$Difference)
+print(population_change)
 
 # Display results of code below this codeblock
 
@@ -216,14 +213,15 @@ print(population_loss)
 
 ### Sentence 5
 
-* **Sentence text**: “That leaves an estimated 230,000 students still unaccounted for in the data.”
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: "That leaves an estimated 230,000 students still unaccounted for in the data."
+-   **Analysis summary**: Using the values we assigned in earlier code blocks, we wrote an equation to determine how many public school children were unaccounted for after considering increases in homeschooling, private school enrollment and population changes. The total number of k-12 students unaccounted for was 234,213 or 230,000 rounded down. We made it so that our total was a negative number to indicate a loss.
 
 ```{r}
 # Put code to reverse engineer sentence here
+private_enrollment_gain+homeschool_enrollment_gain+homeschool_enrollment_gain_ne+population_change+public_enrollment_loss
 
 # Display results of code below this codeblock
-
+the_smartypantses <- "april, cait, ilana, mekhi"
 ```
 
 -30-
