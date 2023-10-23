@@ -73,14 +73,19 @@ filter(grade =="k_12_total")|>
 public_2019_2020 <- public_enrollment_k12 |>
   filter(
     sch_year=="2019-2020"
-  )  
+  ) |> 
+
+
+clean_names() |> 
+  rename(enrollment_2019_2020=enrollment) 
 
 public_2021_2022 <- public_enrollment_k12 |>
-  filter(sch_year=="2021-2022")
-  
-colnames(public_2021_2022)[colnames(public_2021_2022) == "enrollment"] <- "enrollment_2021_2022"
+  filter(sch_year=="2021-2022") |> 
 
-colnames(public_2019_2020)[colnames(public_2019_2020) == "enrollment"] <- "enrollment_2019_2020"
+
+clean_names() |>
+  rename(enrollment_2021_2022=enrollment)
+
 
 public_2019_2020$enrollment_2021_2022 <- public_2021_2022$enrollment_2021_2022
 
